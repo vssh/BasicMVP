@@ -59,5 +59,8 @@ public abstract class BasePresenterActivity<T extends BasePresenter> extends App
         }
     }
 
+    /**
+     * create and return the corresponding presenter here
+     */
     public abstract T createNewPresenter();
 }
