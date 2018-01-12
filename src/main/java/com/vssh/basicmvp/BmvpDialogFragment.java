@@ -1,17 +1,20 @@
 package com.vssh.basicmvp;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.CallSuper;
+import android.view.View;
 
 /**
- * Created by varun on 19.10.16.
+ * Created by varun on 30.12.17.
  */
 
-public abstract class BasePresenterActivity<T extends BasePresenter> extends AppCompatActivity {
+public abstract class BmvpDialogFragment<T extends BmvpPresenterInterface> extends DialogFragment {
     private boolean willBeRecreated;
     public T presenter;
     private int presenterId = -1;
 
+    @CallSuper
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +30,21 @@ public abstract class BasePresenterActivity<T extends BasePresenter> extends App
         }
     }
 
+    @CallSuper
     @Override
-    protected void onStart() {
-        super.onStart();
-        presenter.bindView(this, getApplicationContext());
+    public void onViewCreated(View view, Bundle savedState) {
+        super.onViewCreated(view, savedState);
+        presenter.bindView(this);
     }
 
-    @Override public void onResume() {
+    @CallSuper
+    @Override
+    public void onResume() {
         super.onResume();
         willBeRecreated = false;
     }
 
+    @CallSuper
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("presenterId", presenterId);
@@ -45,22 +52,21 @@ public abstract class BasePresenterActivity<T extends BasePresenter> extends App
         willBeRecreated = true;
     }
 
+    @CallSuper
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onDestroyView() {
+        super.onDestroyView();
         presenter.unbindView();
     }
 
-    @Override public void onDestroy() {
+    @CallSuper
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         if (!willBeRecreated) {
             PresenterStore.getInstance().removePresenter(presenterId);
-            presenterId = -1;
         }
     }
 
-    /**
-     * create and return the corresponding presenter here
-     */
     public abstract T createNewPresenter();
 }
