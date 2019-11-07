@@ -1,6 +1,6 @@
 package com.vssh.basicmvp;
 
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 /**
  * Created by varun on 19.10.16.

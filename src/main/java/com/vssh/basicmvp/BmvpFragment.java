@@ -1,7 +1,7 @@
 package com.vssh.basicmvp;
 
-import android.support.annotation.CallSuper;
-import android.support.v4.app.Fragment;
+import androidx.annotation.CallSuper;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,13 +9,14 @@ import android.view.View;
  * Created by varun on 19.10.16.
  */
 
-public abstract class BmvpFragment<T extends BmvpPresenterInterface> extends Fragment {
+public abstract class BmvpFragment<T extends BmvpPresenterInterface> extends Fragment implements BmvpViewInterface {
     private boolean willBeRecreated;
     public T presenter;
     private int presenterId = -1;
 
     @CallSuper
     @Override
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
@@ -32,6 +33,7 @@ public abstract class BmvpFragment<T extends BmvpPresenterInterface> extends Fra
 
     @CallSuper
     @Override
+    @SuppressWarnings("unchecked")
     public void onViewCreated(View view, Bundle savedState) {
         super.onViewCreated(view, savedState);
         presenter.bindView(this);

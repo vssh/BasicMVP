@@ -2,20 +2,21 @@ package com.vssh.basicmvp;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 import android.view.View;
 
 /**
  * Created by varun on 30.12.17.
  */
 
-public abstract class BmvpDialogFragment<T extends BmvpPresenterInterface> extends DialogFragment {
+public abstract class BmvpDialogFragment<T extends BmvpPresenterInterface> extends DialogFragment implements BmvpViewInterface {
     private boolean willBeRecreated;
     public T presenter;
     private int presenterId = -1;
 
     @CallSuper
     @Override
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
@@ -32,6 +33,7 @@ public abstract class BmvpDialogFragment<T extends BmvpPresenterInterface> exten
 
     @CallSuper
     @Override
+    @SuppressWarnings("unchecked")
     public void onViewCreated(View view, Bundle savedState) {
         super.onViewCreated(view, savedState);
         presenter.bindView(this);

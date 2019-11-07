@@ -1,20 +1,21 @@
 package com.vssh.basicmvp;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.CallSuper;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by varun on 19.10.16.
  */
 
-public abstract class BmvpActivity<T extends BmvpPresenterInterface> extends AppCompatActivity {
+public abstract class BmvpActivity<T extends BmvpPresenterInterface> extends AppCompatActivity implements BmvpViewInterface {
     private boolean willBeRecreated;
     public T presenter;
     private int presenterId = -1;
 
     @CallSuper
     @Override
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
@@ -31,6 +32,7 @@ public abstract class BmvpActivity<T extends BmvpPresenterInterface> extends App
 
     @CallSuper
     @Override
+    @SuppressWarnings("unchecked")
     protected void onStart() {
         super.onStart();
         presenter.bindView(this);
